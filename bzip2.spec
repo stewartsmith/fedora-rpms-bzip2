@@ -1,13 +1,12 @@
 Summary: A file compression utility.
 Name: bzip2
-Version: 1.0.1
-Release: 4.1
+Version: 1.0.2
+Release: 2
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
-Source: ftp://sources.redhat.com/pub/bzip2/v100/bzip2-%{version}.tar.gz
-Patch0: bzip2-1.0.1-autoconflibtoolize.patch.gz
-Source1: bzgrep
+Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
+Patch: bzip2-1.0.2-saneso.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -42,31 +41,35 @@ Libraries for applications using the bzip2 compression format.
 
 %prep
 %setup -q 
-
 %patch -p1
-cp m4/largefile.m4 .
-chmod a+x configure
-touch ChangeLog
 
 %build
-
-%configure --enable-shared --enable-static 
-
-# XXX avoid rerunning automake et al.
-touch aclocal.m4
-
-touch configure
-chmod +x install-sh
-
-make
+make -f Makefile-libbz2_so CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" all
+rm -f *.o
+make CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" all
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
 
-%makeinstall
+mkdir -p $RPM_BUILD_ROOT/{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
+install -m 755 bzlib.h $RPM_BUILD_ROOT/%{_includedir}
+install -m 755 libbz2.so.1.0.2 $RPM_BUILD_ROOT/%{_libdir}
+install -m 755 libbz2.a $RPM_BUILD_ROOT/%{_libdir}
+install -m 755 bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
+install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
+install -m 644 bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT/%{_mandir}/man1/
+ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bunzip2
+ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bzcat
+ln -s bzdiff $RPM_BUILD_ROOT/%{_bindir}/bzcmp
+ln -s bzmore $RPM_BUILD_ROOT/%{_bindir}/bzless
+ln -s libbz2.so.1.0.2 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so.1
+ln -s libbz2.so.1 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so
+ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzip2recover.1
+ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bunzip2.1
+ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzcat.1
+ln -s bzdiff.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzcmp.1
+ln -s bzmore.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzless.1
 
-cp %SOURCE1 ${RPM_BUILD_ROOT}%{_bindir}
-chmod 0755 ${RPM_BUILD_ROOT}%{_bindir}/bzgrep
 
 %post libs -p /sbin/ldconfig
 
@@ -92,6 +95,22 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Thu Feb 21 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.0.2-2
+- Rebuild
+
+* Wed Jan 30 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.0.2-1
+- 1.0.2
+- Total overhaul of build precedure
+- Add many small helper programs added to 1.0.2
+- drop old patches
+
+* Wed Jan 09 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Mon Nov 26 2001 Trond Eivind Glomsrød <teg@redhat.com> 1.0.1-5
+- Don't segfault when infile is a directory and "-f" is used (#56623)
+- Automake is evil. Add workaround
+
 * Fri Mar 30 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - use "License" instead of "Copyright"
 - split out libs
