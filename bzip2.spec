@@ -1,7 +1,7 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.1
-Release: 3
+Release: 4
 Copyright: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
