@@ -1,7 +1,7 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.2
-Release: 10
+Release: 12.1
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
@@ -101,6 +101,15 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Tue Jun 17 2003 Jeff Johnson <jbj@redhat.com> 1.0.2-11
+- rebuilt because of crt breakage on ppc64.
+
 * Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
