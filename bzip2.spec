@@ -1,12 +1,13 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.2
-Release: 13
+Release: 14
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
 Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
-Patch: bzip2-1.0.2-saneso.patch
+Patch0: bzip2-1.0.2-saneso.patch
+Patch1: bzip2-1.0.2-tempfile.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -41,7 +42,8 @@ Libraries for applications using the bzip2 compression format.
 
 %prep
 %setup -q 
-%patch -p1
+%patch0 -p1
+%patch1 -p1
 
 %build
 
@@ -101,6 +103,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Thu Dec 09 2004 Jiri Ryska <jryska@redhat.com>
+- changed temp file creation in bzdiff #92444
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
