@@ -1,7 +1,7 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.2
-Release: 5
+Release: 8
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
@@ -44,9 +44,15 @@ Libraries for applications using the bzip2 compression format.
 %patch -p1
 
 %build
-make -f Makefile-libbz2_so CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" all
+
+make -f Makefile-libbz2_so CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
+	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
+	%{?_smp_mflags} all
+
 rm -f *.o
-make CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" all
+make CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
+	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
+	%{?_smp_mflags} all
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
@@ -80,7 +86,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS COPYING README README.COMPILATION.PROBLEMS Y2K_INFO NEWS ChangeLog
+%doc LICENSE CHANGES README README.COMPILATION.PROBLEMS Y2K_INFO
 %{_bindir}/*
 %{_mandir}/*/*
 
@@ -95,6 +101,17 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Thu Nov 21 2002 Elliot Lee <sopwith@redhat.com>
+- Pass __cc/__ar/__ranlib to makefiles
+- Use _smp_mflags
+
+* Tue Nov 19 2002 Tim Powers <timp@redhat.com>
+- rebuild on all arches
+- fix %%doc file list
+
 * Fri Jun 21 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
