@@ -1,14 +1,15 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.1
-Release: 4
-Copyright: BSD
+Release: 4.1
+License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
 Source: ftp://sources.redhat.com/pub/bzip2/v100/bzip2-%{version}.tar.gz
 Patch0: bzip2-1.0.1-autoconflibtoolize.patch.gz
 Source1: bzgrep
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
+Requires: bzip2-libs = %{version}
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
@@ -24,12 +25,20 @@ Install bzip2 if you need a compression utility.
 %package devel
 Summary: Header files and libraries for developing apps which will use bzip2.
 Group: Development/Libraries
-Requires: bzip2 = %{version}
+Requires: bzip2 = %{version}, bzip2-libs = %{version}
 
 %description devel
 
 Header files and a static library of bzip2 functions, for developing apps
 which will use the library.
+
+%package libs
+Summary: Libraries for applications using bzip2
+Group: System Environment/Libraries
+
+%description libs
+
+Libraries for applications using the bzip2 compression format.
 
 %prep
 %setup -q 
@@ -59,9 +68,9 @@ rm -rf ${RPM_BUILD_ROOT}
 cp %SOURCE1 ${RPM_BUILD_ROOT}%{_bindir}
 chmod 0755 ${RPM_BUILD_ROOT}%{_bindir}/bzgrep
 
-%post -p /sbin/ldconfig
+%post libs -p /sbin/ldconfig
 
-%postun -p /sbin/ldconfig
+%postun libs  -p /sbin/ldconfig
 
 %clean
 rm -rf ${RPM_BUILD_ROOT}
@@ -71,6 +80,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %doc AUTHORS COPYING README README.COMPILATION.PROBLEMS Y2K_INFO NEWS ChangeLog
 %{_bindir}/*
 %{_mandir}/*/*
+
+%files libs
+%defattr(-,root,root)
 %{_libdir}/*so.*
 
 %files devel
@@ -80,6 +92,10 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Fri Mar 30 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- use "License" instead of "Copyright"
+- split out libs
+
 * Fri Jul 21 2000 Trond Eivind Glomsrød <teg@redhat.com>
 - new URL and source location
 
