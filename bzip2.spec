@@ -1,13 +1,15 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.2
-Release: 15
+Release: 16
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
 Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
 Patch0: bzip2-1.0.2-saneso.patch
 Patch1: bzip2-1.0.2-tempfile.patch
+Patch2: bzip2-1.0.2-chmod.patch
+Patch3: bzip2-1.0.2-bomb.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -44,6 +46,8 @@ Libraries for applications using the bzip2 compression format.
 %setup -q 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 
@@ -103,6 +107,10 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Thu May 19 2005 Jiri Ryska <jryska@redhat.com>
+- fixed permission setting for decompressed files #155742
+- fixed decompression bomb (DoS) #157548
+
 * Fri Mar 04 2005 Jiri Ryska <jryska@redhat.com>
 - rebuilt
 
