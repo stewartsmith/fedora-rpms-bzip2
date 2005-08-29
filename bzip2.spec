@@ -1,15 +1,15 @@
 Summary: A file compression utility.
 Name: bzip2
-Version: 1.0.2
-Release: 16
+Version: 1.0.3
+Release: 1
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
 Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
-Patch0: bzip2-1.0.2-saneso.patch
+Patch0: bzip2-1.0.3-saneso.patch
 Patch1: bzip2-1.0.2-tempfile.patch
 Patch2: bzip2-1.0.2-chmod.patch
-Patch3: bzip2-1.0.2-bomb.patch
+Patch3: bzip2-1.0.2-NULL-ptr-check.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -44,10 +44,10 @@ Libraries for applications using the bzip2 compression format.
 
 %prep
 %setup -q 
-%patch0 -p1
+%patch0 -p1 -b .saneso
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+%patch3 -p1 -b .nullptr
 
 %build
 
@@ -65,7 +65,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 mkdir -p $RPM_BUILD_ROOT/{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
 install -m 755 bzlib.h $RPM_BUILD_ROOT/%{_includedir}
-install -m 755 libbz2.so.1.0.2 $RPM_BUILD_ROOT/%{_libdir}
+install -m 755 libbz2.so.1.0.3 $RPM_BUILD_ROOT/%{_libdir}
 install -m 755 libbz2.a $RPM_BUILD_ROOT/%{_libdir}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
@@ -74,7 +74,7 @@ ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT/%{_bindir}/bzcmp
 ln -s bzmore $RPM_BUILD_ROOT/%{_bindir}/bzless
-ln -s libbz2.so.1.0.2 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so.1
+ln -s libbz2.so.1.0.3 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so.1
 ln -s libbz2.so.1 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so
 ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzip2recover.1
 ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bunzip2.1
@@ -107,6 +107,12 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+
+* Mon Aug 29 2005 Ivana Varekova <varekova@redhat.com> 1.0.3-1
+- 1.0.3
+- add NULL-ptr-check patch 
+  (patch author: Mihai Limbasan <mihailim@gmail.com)
+
 * Thu May 19 2005 Jiri Ryska <jryska@redhat.com>
 - fixed permission setting for decompressed files #155742
 - fixed decompression bomb (DoS) #157548
