@@ -1,7 +1,7 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.3
-Release: 1
+Release: 2
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
@@ -10,6 +10,7 @@ Patch0: bzip2-1.0.3-saneso.patch
 Patch1: bzip2-1.0.2-tempfile.patch
 Patch2: bzip2-1.0.2-chmod.patch
 Patch3: bzip2-1.0.2-NULL-ptr-check.patch
+Patch4: bzip2-1.0.2-bzgrep.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -48,6 +49,7 @@ Libraries for applications using the bzip2 compression format.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1 -b .nullptr
+%patch4 -p1 -b .sed
 
 %build
 
@@ -107,6 +109,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+
+* Fri Nov 25 2005 Ivana Varekova <varekova@redhat.com> 1.0.3-2
+- fix bug 174172 - CAN-2005-0758 bzgrep has security issue in sed usage
 
 * Mon Aug 29 2005 Ivana Varekova <varekova@redhat.com> 1.0.3-1
 - 1.0.3
