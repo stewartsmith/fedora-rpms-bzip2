@@ -1,7 +1,7 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.3
-Release: 2
+Release: 2.1
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
@@ -109,6 +109,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 
 * Fri Nov 25 2005 Ivana Varekova <varekova@redhat.com> 1.0.3-2
 - fix bug 174172 - CAN-2005-0758 bzgrep has security issue in sed usage
