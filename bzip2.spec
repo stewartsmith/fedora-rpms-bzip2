@@ -1,7 +1,7 @@
 Summary: A file compression utility.
 Name: bzip2
 Version: 1.0.3
-Release: 2.2.2
+Release: 3
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
@@ -11,6 +11,7 @@ Patch1: bzip2-1.0.2-tempfile.patch
 Patch2: bzip2-1.0.2-chmod.patch
 Patch3: bzip2-1.0.2-NULL-ptr-check.patch
 Patch4: bzip2-1.0.2-bzgrep.patch
+Patch5: bzip2-1.0.3-cflags.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -50,6 +51,7 @@ Libraries for applications using the bzip2 compression format.
 %patch2 -p1
 %patch3 -p1 -b .nullptr
 %patch4 -p1 -b .sed
+%patch5 -p1 -b .cflags
 
 %build
 
@@ -109,6 +111,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Mon Jul 17 2006 Ivana Varekova <varekova@redhat.com> 1.0.3-3
+- add cflags (#198926)
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1.0.3-2.2.2
 - rebuild
 
