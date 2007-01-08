@@ -1,17 +1,13 @@
-Summary: A file compression utility.
+Summary: A file compression utility
 Name: bzip2
-Version: 1.0.3
-Release: 3
+Version: 1.0.4
+Release: 1%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
 Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
-Patch0: bzip2-1.0.3-saneso.patch
-Patch1: bzip2-1.0.2-tempfile.patch
-Patch2: bzip2-1.0.2-chmod.patch
-Patch3: bzip2-1.0.2-NULL-ptr-check.patch
-Patch4: bzip2-1.0.2-bzgrep.patch
-Patch5: bzip2-1.0.3-cflags.patch
+Patch0: bzip2-1.0.4-saneso.patch
+Patch5: bzip2-1.0.4-cflags.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -47,10 +43,6 @@ Libraries for applications using the bzip2 compression format.
 %prep
 %setup -q 
 %patch0 -p1 -b .saneso
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1 -b .nullptr
-%patch4 -p1 -b .sed
 %patch5 -p1 -b .cflags
 
 %build
@@ -69,7 +61,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 mkdir -p $RPM_BUILD_ROOT/{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
 install -m 755 bzlib.h $RPM_BUILD_ROOT/%{_includedir}
-install -m 755 libbz2.so.1.0.3 $RPM_BUILD_ROOT/%{_libdir}
+install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}
 install -m 755 libbz2.a $RPM_BUILD_ROOT/%{_libdir}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
@@ -78,7 +70,7 @@ ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT/%{_bindir}/bzcmp
 ln -s bzmore $RPM_BUILD_ROOT/%{_bindir}/bzless
-ln -s libbz2.so.1.0.3 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so.1
+ln -s libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libbz2.so.1
 ln -s libbz2.so.1 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so
 ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzip2recover.1
 ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bunzip2.1
@@ -96,7 +88,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-,root,root)
-%doc LICENSE CHANGES README README.COMPILATION.PROBLEMS Y2K_INFO
+%doc LICENSE CHANGES README README.COMPILATION.PROBLEMS 
 %{_bindir}/*
 %{_mandir}/*/*
 
@@ -111,6 +103,10 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Mon Jan  8 2006 Ivana Varekova <varekova@redhat.com> 1.0.4-1
+- update to 1.0.4
+- spec file cleanup
+
 * Mon Jul 17 2006 Ivana Varekova <varekova@redhat.com> 1.0.3-3
 - add cflags (#198926)
 
@@ -125,7 +121,6 @@ rm -rf ${RPM_BUILD_ROOT}
 
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
-
 
 * Fri Nov 25 2005 Ivana Varekova <varekova@redhat.com> 1.0.3-2
 - fix bug 174172 - CAN-2005-0758 bzgrep has security issue in sed usage
@@ -180,13 +175,13 @@ rm -rf ${RPM_BUILD_ROOT}
 * Thu May 23 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
-* Thu Apr 25 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.0.2-3
+* Thu Apr 25 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.0.2-3
 - Rebuild in new environment
 
-* Thu Feb 21 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.0.2-2
+* Thu Feb 21 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.0.2-2
 - Rebuild
 
-* Wed Jan 30 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.0.2-1
+* Wed Jan 30 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.0.2-1
 - 1.0.2
 - Total overhaul of build precedure
 - Add many small helper programs added to 1.0.2
@@ -195,21 +190,21 @@ rm -rf ${RPM_BUILD_ROOT}
 * Wed Jan 09 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
-* Mon Nov 26 2001 Trond Eivind Glomsrød <teg@redhat.com> 1.0.1-5
+* Mon Nov 26 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.0.1-5
 - Don't segfault when infile is a directory and "-f" is used (#56623)
 - Automake is evil. Add workaround
 
-* Fri Mar 30 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Fri Mar 30 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - use "License" instead of "Copyright"
 - split out libs
 
-* Fri Jul 21 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Fri Jul 21 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - new URL and source location
 
 * Wed Jul 12 2000 Prospector <bugzilla@redhat.com>
 - automatic rebuild
 
-* Sat Jul 01 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Sat Jul 01 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - 1.0.1
 - ported my patch
 
@@ -218,33 +213,33 @@ rm -rf ${RPM_BUILD_ROOT}
 - remove config.cache from autoconf patch.
 - sparc: use %%configure, but not the m4 macros.
 
-* Tue Jun 06 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Tue Jun 06 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - Use %%configure, %%makeinstall, %%{_manpath} and %%{_tmpdir}
 
-* Wed May 17 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Wed May 17 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - 1.0.0 - ported my 1.0pre8 libtoolizedautoconf patch
 
-* Tue May 16 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Tue May 16 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - use soft links, not hardlinks, for binaries
 - mv .so to devel
 
-* Mon May 15 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Mon May 15 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - autoconfed and libtoolized package 
 - fixed Copyright (it's BSD, not GPL)
 - dumped bzless (less works fine with bz2-files)
 - rewrote build and install parts
 - separated main package and devel package
 
-* Mon May  8 2000 Bernhard Rosenkränzer <bero@redhat.com>
+* Mon May  8 2000 Bernhard RosenkrÃ¤nzer <bero@redhat.com>
 - 1.0pre8
 
-* Fri Apr 14 2000 Bernhard Rosenkränzer <bero@redhat.com>
+* Fri Apr 14 2000 Bernhard RosenkrÃ¤nzer <bero@redhat.com>
 - Add bzgrep (a version of zgrep hacked to do bzip2)
 
 * Mon Feb  7 2000 Bill Nottingham <notting@redhat.com>
 - handle compressed manpages
 
-* Fri Dec 31 1999 Bernhard Rosenkränzer <bero@redhat.com>
+* Fri Dec 31 1999 Bernhard RosenkrÃ¤nzer <bero@redhat.com>
 - 0.9.5d
 - Update download URL, add URL: tag in header
 
