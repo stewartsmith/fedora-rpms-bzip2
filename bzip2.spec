@@ -103,7 +103,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
-* Mon Jan  8 2006 Ivana Varekova <varekova@redhat.com> 1.0.4-1
+* Mon Jan  8 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-1
 - update to 1.0.4
 - spec file cleanup
 
