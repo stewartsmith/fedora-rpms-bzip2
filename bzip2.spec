@@ -1,13 +1,14 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
 Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
 Patch0: bzip2-1.0.4-saneso.patch
 Patch5: bzip2-1.0.4-cflags.patch
+Patch6: bzip2-1.0.4-bzip2recover.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: bzip2-libs = %{version}
 
@@ -44,6 +45,7 @@ Libraries for applications using the bzip2 compression format.
 %setup -q 
 %patch0 -p1 -b .saneso
 %patch5 -p1 -b .cflags
+%patch6 -p1 -b .pom
 
 %build
 
@@ -103,6 +105,10 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Mon Feb  5 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-2
+- Resolves: 226979 
+  Buffer overflow in bzip2's bzip2recover
+
 * Mon Jan  8 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-1
 - update to 1.0.4
 - spec file cleanup
