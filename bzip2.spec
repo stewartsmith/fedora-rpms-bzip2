@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
@@ -105,6 +105,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*so
 
 %changelog
+* Tue Feb  6 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-4
+- fix bzip2recover patch
+
 * Mon Feb  5 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-3
 - Resolves: 226979 
   Buffer overflow in bzip2's bzip2recover
