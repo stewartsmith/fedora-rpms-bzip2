@@ -1,16 +1,15 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://sources.redhat.com/bzip2/
-Source: ftp://sources.redhat.com/pub/bzip2/v102/bzip2-%{version}.tar.gz
+Source: http://www.bzip.org/%{version}/bzip2-%{version}.tar.gz
 Patch0: bzip2-1.0.4-saneso.patch
 Patch5: bzip2-1.0.4-cflags.patch
 Patch6: bzip2-1.0.4-bzip2recover.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
-Requires: bzip2-libs = %{version}
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
@@ -24,9 +23,9 @@ and compression capability.
 Install bzip2 if you need a compression utility.
 
 %package devel
-Summary: Header files and libraries for developing apps which will use bzip2.
+Summary: Header files and libraries for developing apps which will use bzip2
 Group: Development/Libraries
-Requires: bzip2 = %{version}, bzip2-libs = %{version}
+Requires: bzip2 = %{version}-%{release},  bzip2-libs = %{version}-%{release}
 
 %description devel
 
@@ -61,13 +60,13 @@ make CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
 %install
 rm -rf ${RPM_BUILD_ROOT}
 
+chmod 644 bzlib.h 
 mkdir -p $RPM_BUILD_ROOT/{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
-install -m 755 bzlib.h $RPM_BUILD_ROOT/%{_includedir}
-install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}
-install -m 755 libbz2.a $RPM_BUILD_ROOT/%{_libdir}
-install -m 755 bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
-install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
-install -m 644 bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT/%{_mandir}/man1/
+cp -p bzlib.h $RPM_BUILD_ROOT/%{_includedir}
+install -p libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}
+install -p bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
+install -p bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
+install -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT/%{_mandir}/man1/
 ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT/%{_bindir}/bzcmp
@@ -90,7 +89,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-,root,root)
-%doc LICENSE CHANGES README README.COMPILATION.PROBLEMS 
+%doc LICENSE CHANGES README 
 %{_bindir}/*
 %{_mandir}/*/*
 
@@ -100,11 +99,14 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files devel
 %defattr(-,root,root)
+%doc manual.html manual.pdf
 %{_includedir}/*
-%{_libdir}/*.a
 %{_libdir}/*so
 
 %changelog
+* Thu Feb 15 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-5
+- incorporate package review feedback
+
 * Tue Feb  6 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-4
 - fix bzip2recover patch
 
