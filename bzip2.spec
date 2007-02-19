@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -63,6 +63,8 @@ rm -rf ${RPM_BUILD_ROOT}
 chmod 644 bzlib.h 
 mkdir -p $RPM_BUILD_ROOT/{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT/%{_includedir}
+# temporary for rpm
+install -p libbz2.a $RPM_BUILD_ROOT/%{_libdir}
 install -p libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}
 install -p bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
 install -p bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
@@ -103,8 +105,13 @@ rm -rf ${RPM_BUILD_ROOT}
 %doc manual.html manual.pdf
 %{_includedir}/*
 %{_libdir}/*so
+# Temporary for rpm
+%{_libdir}/*.a
 
 %changelog
+* Mon Feb 19 2007 Jesse Keating <jkeating@redhat.com> 1.0.4-7
+- Temporarily add static lib back in for rpm
+
 * Fri Feb 16 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-6
 - incorporate the next review feedback
 
