@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -44,7 +44,7 @@ Libraries for applications using the bzip2 compression format.
 %setup -q 
 %patch0 -p1 -b .saneso
 %patch5 -p1 -b .cflags
-%patch6 -p1 -b .pom
+%patch6 -p1 -b .bz2recover
 
 %build
 
@@ -61,26 +61,26 @@ make CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
 rm -rf ${RPM_BUILD_ROOT}
 
 chmod 644 bzlib.h 
-mkdir -p $RPM_BUILD_ROOT/{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
-cp -p bzlib.h $RPM_BUILD_ROOT/%{_includedir}
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
+cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 # temporary for rpm
-install -p libbz2.a $RPM_BUILD_ROOT/%{_libdir}
-install -p libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}
-install -p bzip2-shared  $RPM_BUILD_ROOT/%{_bindir}/bzip2
-install -p bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT/%{_bindir}/
+install -p libbz2.a $RPM_BUILD_ROOT%{_libdir}
+install -p libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}
+install -p bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
+install -p bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
 chmod 644 bzip2.1 bzdiff.1 bzgrep.1 bzmore.1 
-cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT/%{_mandir}/man1/
-ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bunzip2
-ln -s bzip2 $RPM_BUILD_ROOT/%{_bindir}/bzcat
-ln -s bzdiff $RPM_BUILD_ROOT/%{_bindir}/bzcmp
-ln -s bzmore $RPM_BUILD_ROOT/%{_bindir}/bzless
-ln -s libbz2.so.%{version} $RPM_BUILD_ROOT/%{_libdir}/libbz2.so.1
-ln -s libbz2.so.1 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so
-ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzip2recover.1
-ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bunzip2.1
-ln -s bzip2.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzcat.1
-ln -s bzdiff.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzcmp.1
-ln -s bzmore.1 $RPM_BUILD_ROOT/%{_mandir}/man1/bzless.1
+cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT%{_mandir}/man1/
+ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bunzip2
+ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bzcat
+ln -s bzdiff $RPM_BUILD_ROOT%{_bindir}/bzcmp
+ln -s bzmore $RPM_BUILD_ROOT%{_bindir}/bzless
+ln -s libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libbz2.so.1
+ln -s libbz2.so.1 $RPM_BUILD_ROOT%{_libdir}/libbz2.so
+ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzip2recover.1
+ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bunzip2.1
+ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcat.1
+ln -s bzdiff.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcmp.1
+ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 
 
 %post libs -p /sbin/ldconfig
@@ -109,6 +109,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*.a
 
 %changelog
+* Thu Mar 15 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-8
+- remove unnecessary "/" after RPM_BUILD_ROOT macro
+
 * Mon Feb 19 2007 Jesse Keating <jkeating@redhat.com> 1.0.4-7
 - Temporarily add static lib back in for rpm
 
