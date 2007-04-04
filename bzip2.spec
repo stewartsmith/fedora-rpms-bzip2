@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -64,11 +64,10 @@ chmod 644 bzlib.h
 mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 # temporary for rpm
-install -p libbz2.a $RPM_BUILD_ROOT%{_libdir}
-install -p libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}
-install -p bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
-install -p bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
-chmod 644 bzip2.1 bzdiff.1 bzgrep.1 bzmore.1 
+install -m 755 libbz2.a $RPM_BUILD_ROOT%{_libdir}
+install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}
+install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
+install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
 cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT%{_mandir}/man1/
 ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bzcat
@@ -109,6 +108,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*.a
 
 %changelog
+* Wed Apr  4 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-9
+- remove useless -p 
+
 * Thu Mar 15 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-8
 - remove unnecessary "/" after RPM_BUILD_ROOT macro
 
