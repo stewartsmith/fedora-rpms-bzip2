@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 9%{?dist}
+Release: 10%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -64,7 +64,7 @@ chmod 644 bzlib.h
 mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 # temporary for rpm
-install -m 755 libbz2.a $RPM_BUILD_ROOT%{_libdir}
+install -m 644 libbz2.a $RPM_BUILD_ROOT%{_libdir}
 install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
@@ -108,6 +108,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*.a
 
 %changelog
+* Wed Apr  4 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-10
+- change libz.a permissions
+
 * Wed Apr  4 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-9
 - remove useless -p 
 
