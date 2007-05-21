@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 11%{?dist}
+Release: 12%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -61,10 +61,10 @@ make CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
 rm -rf ${RPM_BUILD_ROOT}
 
 chmod 644 bzlib.h 
-mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_includedir}}
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 # temporary for rpm
-install -m 644 libbz2.a $RPM_BUILD_ROOT/%{_lib}
+install -m 644 libbz2.a $RPM_BUILD_ROOT%{_libdir}
 install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT/%{_lib}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
@@ -74,7 +74,7 @@ ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT%{_bindir}/bzcmp
 ln -s bzmore $RPM_BUILD_ROOT%{_bindir}/bzless
 ln -s libbz2.so.%{version} $RPM_BUILD_ROOT/%{_lib}/libbz2.so.1
-ln -s libbz2.so.1 $RPM_BUILD_ROOT/%{_lib}/libbz2.so
+ln -s ../../%{_lib}/libbz2.so.1 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzip2recover.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bunzip2.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcat.1
@@ -103,11 +103,14 @@ rm -rf ${RPM_BUILD_ROOT}
 %defattr(-,root,root,-)
 %doc manual.html manual.pdf
 %{_includedir}/*
-/%{_lib}/*so
+/%{_libdir}/*so
 # Temporary for rpm
-/%{_lib}/*.a
+%{_libdir}/*.a
 
 %changelog
+* Mon May 21 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-12
+- fix *.so,*.a directory
+
 * Mon May 21 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-11
 - remove libbz2.* from /usr/lib* to /lib*
 
