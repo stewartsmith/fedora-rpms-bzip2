@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 10%{?dist}
+Release: 11%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -61,11 +61,11 @@ make CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
 rm -rf ${RPM_BUILD_ROOT}
 
 chmod 644 bzlib.h 
-mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 # temporary for rpm
-install -m 644 libbz2.a $RPM_BUILD_ROOT%{_libdir}
-install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}
+install -m 644 libbz2.a $RPM_BUILD_ROOT/%{_lib}
+install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT/%{_lib}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
 cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT%{_mandir}/man1/
@@ -73,8 +73,8 @@ ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT%{_bindir}/bzcmp
 ln -s bzmore $RPM_BUILD_ROOT%{_bindir}/bzless
-ln -s libbz2.so.%{version} $RPM_BUILD_ROOT%{_libdir}/libbz2.so.1
-ln -s libbz2.so.1 $RPM_BUILD_ROOT%{_libdir}/libbz2.so
+ln -s libbz2.so.%{version} $RPM_BUILD_ROOT/%{_lib}/libbz2.so.1
+ln -s libbz2.so.1 $RPM_BUILD_ROOT/%{_lib}/libbz2.so
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzip2recover.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bunzip2.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcat.1
@@ -97,17 +97,20 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files libs
 %defattr(-,root,root,-)
-%{_libdir}/*so.*
+/%{_lib}/*so.*
 
 %files devel
 %defattr(-,root,root,-)
 %doc manual.html manual.pdf
 %{_includedir}/*
-%{_libdir}/*so
+/%{_lib}/*so
 # Temporary for rpm
-%{_libdir}/*.a
+/%{_lib}/*.a
 
 %changelog
+* Mon May 21 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-11
+- remove libbz2.* from /usr/lib* to /lib*
+
 * Wed Apr  4 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-10
 - change libz.a permissions
 
