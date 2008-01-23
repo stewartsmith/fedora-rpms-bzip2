@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.4
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -108,6 +108,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*.a
 
 %changelog
+* Wed Jan 23 2008 Ivana Varekova <varekova@redhat.com> 1.0.4-13
+- rebuild
+
 * Mon May 21 2007 Ivana Varekova <varekova@redhat.com> 1.0.4-12
 - fix *.so,*.a directory
 
