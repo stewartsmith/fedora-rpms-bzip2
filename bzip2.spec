@@ -1,7 +1,7 @@
 Summary: A file compression utility
 Name: bzip2
-Version: 1.0.4
-Release: 14%{?dist}
+Version: 1.0.5
+Release: 1%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -65,7 +65,7 @@ mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_libdir},%{_inclu
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 # temporary for rpm
 install -m 644 libbz2.a $RPM_BUILD_ROOT%{_libdir}
-install -m 755 libbz2.so.%{version} $RPM_BUILD_ROOT/%{_lib}
+install -m 755 libbz2.so.1.0.4 $RPM_BUILD_ROOT/%{_lib}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
 cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT%{_mandir}/man1/
@@ -108,6 +108,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*.a
 
 %changelog
+* Tue Mar 25 2008 Ivana Varekova <varekova@redhat.com> 1.0.5-1
+- update to 1.0.5
+
 * Wed Feb 20 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.0.4-14
 - Autorebuild for GCC 4.3
 
