@@ -51,12 +51,12 @@ Libraries for applications using the bzip2 compression format.
 
 make -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
 	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
-	%{?_smp_mflags} all"
+	%{?_smp_mflags} all
 
 rm -f *.o
 make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
 	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
-	%{?_smp_mflags} all"
+	%{?_smp_mflags} all
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
