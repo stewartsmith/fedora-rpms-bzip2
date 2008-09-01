@@ -2,7 +2,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -49,14 +49,14 @@ Libraries for applications using the bzip2 compression format.
 
 %build
 
-make -f Makefile-libbz2_so CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
+make -f Makefile-libbz2_so "CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
 	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
-	%{?_smp_mflags} all
+	%{?_smp_mflags} all"
 
 rm -f *.o
-make CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
+make "CC=%{__cc} AR=%{__ar} RANLIB=%{__ranlib} \
 	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
-	%{?_smp_mflags} all
+	%{?_smp_mflags} all"
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
@@ -109,6 +109,9 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/*.a
 
 %changelog
+* Mon Sep  1 2008 Ivana Varekova <varekova@redhat.com> 1.0.5-3
+- minor spec file changew
+
 * Thu Apr 10 2008 Ivana Varekova <varekova@redhat.com> 1.0.5-2
 - Resolves: #441775
   fix libs link
