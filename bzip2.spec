@@ -2,7 +2,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.5
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -30,7 +30,7 @@ Requires: bzip2-libs = %{version}-%{release}
 
 %description devel
 
-Header files and a static library of bzip2 functions, for developing apps
+Header files and a library of bzip2 functions, for developing apps
 which will use the library.
 
 %package libs
@@ -64,8 +64,6 @@ rm -rf ${RPM_BUILD_ROOT}
 chmod 644 bzlib.h 
 mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
-# temporary for rpm
-install -m 644 libbz2.a $RPM_BUILD_ROOT%{_libdir}
 install -m 755 libbz2.so.%{library_version} $RPM_BUILD_ROOT/%{_lib}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
@@ -105,10 +103,11 @@ rm -rf ${RPM_BUILD_ROOT}
 %doc manual.html manual.pdf
 %{_includedir}/*
 /%{_libdir}/*so
-# Temporary for rpm
-%{_libdir}/*.a
 
 %changelog
+* Tue Mar 17 2009 Ivana Varekova <varekova@redhat.com> 1.0.5-5
+- remove static library
+
 * Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.5-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
