@@ -2,7 +2,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.5
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -96,6 +96,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files libs
 %defattr(-,root,root,-)
+%doc LICENSE
 /%{_lib}/*so.*
 
 %files devel
@@ -105,6 +106,9 @@ rm -rf ${RPM_BUILD_ROOT}
 /%{_libdir}/*so
 
 %changelog
+* Mon Jul 12 2010 Ivana Hutarova Varekova <varekova@redhat.com> - 1.0.5-7
+- add LICENSE to bzip2-libs
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
