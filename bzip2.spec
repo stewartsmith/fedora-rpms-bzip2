@@ -1,8 +1,8 @@
-%define library_version 1.0.4
+%define library_version 1.0.6
 Summary: A file compression utility
 Name: bzip2
-Version: 1.0.5
-Release: 7%{?dist}
+Version: 1.0.6
+Release: 1%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -106,6 +106,9 @@ rm -rf ${RPM_BUILD_ROOT}
 /%{_libdir}/*so
 
 %changelog
+* Wed Sep 22 2010 Ivana Hutarova Varekova <varekova@redhat.com> - 1.0.6-1
+- update to 1.0.6
+
 * Mon Jul 12 2010 Ivana Hutarova Varekova <varekova@redhat.com> - 1.0.5-7
 - add LICENSE to bzip2-libs
 
