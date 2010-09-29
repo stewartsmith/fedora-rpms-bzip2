@@ -2,7 +2,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -106,6 +106,9 @@ rm -rf ${RPM_BUILD_ROOT}
 /%{_libdir}/*so
 
 %changelog
+* Wed Sep 29 2010 jkeating - 1.0.6-2
+- Rebuilt for gcc bug 634757
+
 * Wed Sep 22 2010 Ivana Hutarova Varekova <varekova@redhat.com> - 1.0.6-1
 - update to 1.0.6
 
