@@ -2,7 +2,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -106,6 +106,9 @@ rm -rf ${RPM_BUILD_ROOT}
 /%{_libdir}/*so
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Wed Sep 29 2010 jkeating - 1.0.6-2
 - Rebuilt for gcc bug 634757
 
