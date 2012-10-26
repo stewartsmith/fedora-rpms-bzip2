@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -60,10 +60,10 @@ make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
     %{?_smp_mflags} all
 
 %install
-chmod 644 bzlib.h 
-mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_libdir},%{_includedir}}
+chmod 644 bzlib.h
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
-install -m 755 libbz2.so.%{library_version} $RPM_BUILD_ROOT/%{_lib}
+install -m 755 libbz2.so.%{library_version} $RPM_BUILD_ROOT%{_libdir}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
 cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT%{_mandir}/man1/
@@ -71,8 +71,8 @@ ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT%{_bindir}/bzcmp
 ln -s bzmore $RPM_BUILD_ROOT%{_bindir}/bzless
-ln -s libbz2.so.%{library_version} $RPM_BUILD_ROOT/%{_lib}/libbz2.so.1
-ln -s ../../%{_lib}/libbz2.so.1 $RPM_BUILD_ROOT/%{_libdir}/libbz2.so
+ln -s libbz2.so.%{library_version} $RPM_BUILD_ROOT%{_libdir}/libbz2.so.1
+ln -s libbz2.so.1 $RPM_BUILD_ROOT%{_libdir}/libbz2.so
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzip2recover.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bunzip2.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcat.1
@@ -90,14 +90,17 @@ ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 
 %files libs
 %doc LICENSE
-/%{_lib}/*so.*
+%{_libdir}/libbz2.so.1*
 
 %files devel
 %doc manual.html manual.pdf
 %{_includedir}/*
-/%{_libdir}/*so
+%{_libdir}/*.so
 
 %changelog
+* Fri Oct 26 2012 Peter Schiffer <pschiffe@redhat.com> - 1.0.6-7
+- moved libraries from /lib to /usr/lib
+
 * Fri Oct 26 2012 Peter Schiffer <pschiffe@redhat.com> - 1.0.6-6
 - .spec file cleanup
 
