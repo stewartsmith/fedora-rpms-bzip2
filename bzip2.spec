@@ -1,30 +1,32 @@
-%define library_version 1.0.6
+%global library_version 1.0.6
+
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
-Source: http://www.bzip.org/%{version}/bzip2-%{version}.tar.gz
+Source: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
+
 Patch0: bzip2-1.0.4-saneso.patch
-Patch5: bzip2-1.0.4-cflags.patch
-Patch6: bzip2-1.0.4-bzip2recover.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Patch1: bzip2-1.0.4-cflags.patch
+# resolves: #226979
+Patch2: bzip2-1.0.4-bzip2recover.patch
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
-Bzip2 compresses files to within 10 to 15 percent of the capabilities 
-of the best techniques available.  However, bzip2 has the added benefit 
-of being approximately two times faster at compression and six times 
-faster at decompression than those techniques.  Bzip2 is not the 
-fastest compression utility, but it does strike a balance between speed 
+Bzip2 compresses files to within 10 to 15 percent of the capabilities
+of the best techniques available.  However, bzip2 has the added benefit
+of being approximately two times faster at compression and six times
+faster at decompression than those techniques.  Bzip2 is not the
+fastest compression utility, but it does strike a balance between speed
 and compression capability.
 
 Install bzip2 if you need a compression utility.
 
 %package devel
-Summary: Header files developing apps which will use bzip2
+Summary: Libraries and header files for apps which will use bzip2
 Group: Development/Libraries
 Requires: bzip2-libs = %{version}-%{release}
 
@@ -42,25 +44,22 @@ Group: System Environment/Libraries
 Libraries for applications using the bzip2 compression format.
 
 %prep
-%setup -q 
+%setup -q
 %patch0 -p1 -b .saneso
-%patch5 -p1 -b .cflags
-%patch6 -p1 -b .bz2recover
+%patch1 -p1 -b .cflags
+%patch2 -p1 -b .bz2recover
 
 %build
-
 make -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
-	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
-	%{?_smp_mflags} all
+    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
+    %{?_smp_mflags} all
 
 rm -f *.o
 make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
-	CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
-	%{?_smp_mflags} all
+    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
+    %{?_smp_mflags} all
 
 %install
-rm -rf ${RPM_BUILD_ROOT}
-
 chmod 644 bzlib.h 
 mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,/%{_lib},%{_libdir},%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
@@ -80,32 +79,28 @@ ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcat.1
 ln -s bzdiff.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcmp.1
 ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 
-
 %post libs -p /sbin/ldconfig
 
 %postun libs  -p /sbin/ldconfig
 
-%clean
-rm -rf ${RPM_BUILD_ROOT}
-
 %files
-%defattr(-,root,root,-)
-%doc LICENSE CHANGES README 
+%doc LICENSE CHANGES README
 %{_bindir}/*
 %{_mandir}/*/*
 
 %files libs
-%defattr(-,root,root,-)
 %doc LICENSE
 /%{_lib}/*so.*
 
 %files devel
-%defattr(-,root,root,-)
 %doc manual.html manual.pdf
 %{_includedir}/*
 /%{_libdir}/*so
 
 %changelog
+* Fri Oct 26 2012 Peter Schiffer <pschiffe@redhat.com> - 1.0.6-6
+- .spec file cleanup
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
