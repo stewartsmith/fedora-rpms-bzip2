@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -98,6 +98,9 @@ ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 %{_libdir}/*.so
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
