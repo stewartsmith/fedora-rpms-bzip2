@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 9%{?dist}
+Release: 10%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -71,6 +71,8 @@ ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bunzip2
 ln -s bzip2 $RPM_BUILD_ROOT%{_bindir}/bzcat
 ln -s bzdiff $RPM_BUILD_ROOT%{_bindir}/bzcmp
 ln -s bzmore $RPM_BUILD_ROOT%{_bindir}/bzless
+ln -s bzgrep $RPM_BUILD_ROOT%{_bindir}/bzegrep
+ln -s bzgrep $RPM_BUILD_ROOT%{_bindir}/bzfgrep
 ln -s libbz2.so.%{library_version} $RPM_BUILD_ROOT%{_libdir}/libbz2.so.1
 ln -s libbz2.so.1 $RPM_BUILD_ROOT%{_libdir}/libbz2.so
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzip2recover.1
@@ -78,6 +80,8 @@ ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bunzip2.1
 ln -s bzip2.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcat.1
 ln -s bzdiff.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcmp.1
 ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
+ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzegrep.1
+ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 
 %post libs -p /sbin/ldconfig
 
@@ -98,6 +102,10 @@ ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 %{_libdir}/*.so
 
 %changelog
+* Wed Dec 11 2013 Peter Schiffer <pschiffe@redhat.com> - 1.0.6-10
+- resolves: #1034855
+  provided missing bzegrep and bzfgrep shortcuts
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
