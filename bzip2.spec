@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 10%{?dist}
+Release: 11%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -50,13 +50,23 @@ Libraries for applications using the bzip2 compression format.
 %patch2 -p1 -b .bz2recover
 
 %build
+%if 0%{?rhel} >= 7
+    %ifarch ppc64
+        export O3="-O3"
+    %else
+        export O3=""
+    %endif
+%else
+    export O3=""
+%endif
+
 make -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
-    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
+    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC $O3" \
     %{?_smp_mflags} all
 
 rm -f *.o
 make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
-    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
+    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 $O3" \
     %{?_smp_mflags} all
 
 %install
@@ -102,6 +112,10 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/*.so
 
 %changelog
+* Tue Feb 11 2014 jchaloup <jchaloup@redhat.com> - 1.0.6-11
+- resolves: #1063849
+  recompiled with -O3 flag for ppc64 arch
+
 * Wed Dec 11 2013 Peter Schiffer <pschiffe@redhat.com> - 1.0.6-10
 - resolves: #1034855
   provided missing bzegrep and bzfgrep shortcuts
