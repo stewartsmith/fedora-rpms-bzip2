@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -99,11 +99,14 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 
 %files
 %doc LICENSE CHANGES README
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
 %{_bindir}/*
 %{_mandir}/*/*
 
 %files libs
-%doc LICENSE
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
 %{_libdir}/libbz2.so.1*
 
 %files devel
@@ -112,6 +115,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/*.so
 
 %changelog
+* Fri Jul 11 2014 Tom Callaway <spot@fedoraproject.org> - 1.0.6-13
+- fix license marking
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
