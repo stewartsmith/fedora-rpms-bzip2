@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 16%{?dist}
+Release: 17%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -13,6 +13,7 @@ Patch0: bzip2-1.0.4-saneso.patch
 Patch1: bzip2-1.0.4-cflags.patch
 # resolves: #226979
 Patch2: bzip2-1.0.4-bzip2recover.patch
+Patch3: bzip2-ldflags.patch
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
@@ -48,6 +49,7 @@ Libraries for applications using the bzip2 compression format.
 %patch0 -p1 -b .saneso
 %patch1 -p1 -b .cflags
 %patch2 -p1 -b .bz2recover
+%patch3 -p1 -b .ldflags
 
 %build
 %if 0%{?rhel} >= 7
@@ -62,11 +64,13 @@ Libraries for applications using the bzip2 compression format.
 
 make -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
     CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC $O3" \
+    LDFLAGS="%{__global_ldflags}" \
     %{?_smp_mflags} all
 
 rm -f *.o
 make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
     CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 $O3" \
+    LDFLAGS="%{__global_ldflags}" \
     %{?_smp_mflags} all
 
 %install
@@ -115,6 +119,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/*.so
 
 %changelog
+* Fri Aug 14 2015 Adam Jackson <ajax@redhat.com> 1.0.6-17
+- Pass ldflags through so hardening actually works
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.6-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
