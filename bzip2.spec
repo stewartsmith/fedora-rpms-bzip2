@@ -3,11 +3,12 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 17%{?dist}
+Release: 18%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
-Source: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
+Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
+Source1: bzip2.pc
 
 Patch0: bzip2-1.0.4-saneso.patch
 Patch1: bzip2-1.0.4-cflags.patch
@@ -51,6 +52,9 @@ Libraries for applications using the bzip2 compression format.
 %patch2 -p1 -b .bz2recover
 %patch3 -p1 -b .ldflags
 
+cp -a %{SOURCE1} .
+sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
+
 %build
 %if 0%{?rhel} >= 7
     %ifarch ppc64
@@ -75,7 +79,7 @@ make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
 
 %install
 chmod 644 bzlib.h
-mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir},%{_includedir}}
+mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir}/pkgconfig,%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 install -m 755 libbz2.so.%{library_version} $RPM_BUILD_ROOT%{_libdir}
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
@@ -96,6 +100,7 @@ ln -s bzdiff.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcmp.1
 ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzegrep.1
 ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
+install -m 644 bzip2.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/bzip2.pc
 
 %post libs -p /sbin/ldconfig
 
@@ -117,8 +122,12 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %doc manual.html manual.pdf
 %{_includedir}/*
 %{_libdir}/*.so
+%{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Tue Dec 08 2015 Jaromir Capik <jcapik@redhat.com> - 1.0.6-18
+- Adding bzip2.pc to the devel subpackage (#1289576)
+
 * Fri Aug 14 2015 Adam Jackson <ajax@redhat.com> 1.0.6-17
 - Pass ldflags through so hardening actually works
 
