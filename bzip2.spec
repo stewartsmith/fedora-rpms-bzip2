@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 18%{?dist}
+Release: 19%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -45,6 +45,14 @@ Group: System Environment/Libraries
 
 Libraries for applications using the bzip2 compression format.
 
+%package static
+Summary: Libraries for applications using bzip2
+Group: System Environment/Libraries
+
+%description static
+
+Static libraries for applications using the bzip2 compression format.
+
 %prep
 %setup -q
 %patch0 -p1 -b .saneso
@@ -82,6 +90,8 @@ chmod 644 bzlib.h
 mkdir -p $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_libdir}/pkgconfig,%{_includedir}}
 cp -p bzlib.h $RPM_BUILD_ROOT%{_includedir}
 install -m 755 libbz2.so.%{library_version} $RPM_BUILD_ROOT%{_libdir}
+install -m 644 libbz2.a $RPM_BUILD_ROOT%{_libdir}
+install -m 644 bzip2.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/bzip2.pc
 install -m 755 bzip2-shared  $RPM_BUILD_ROOT%{_bindir}/bzip2
 install -m 755 bzip2recover bzgrep bzdiff bzmore  $RPM_BUILD_ROOT%{_bindir}/
 cp -p bzip2.1 bzdiff.1 bzgrep.1 bzmore.1  $RPM_BUILD_ROOT%{_mandir}/man1/
@@ -100,7 +110,6 @@ ln -s bzdiff.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzcmp.1
 ln -s bzmore.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzless.1
 ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzegrep.1
 ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
-install -m 644 bzip2.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/bzip2.pc
 
 %post libs -p /sbin/ldconfig
 
@@ -118,6 +127,11 @@ install -m 644 bzip2.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/bzip2.pc
 %license LICENSE
 %{_libdir}/libbz2.so.1*
 
+%files static
+%{!?_licensedir:%global license %%doc}
+%license LICENSE
+%{_libdir}/libbz2.a
+
 %files devel
 %doc manual.html manual.pdf
 %{_includedir}/*
@@ -125,6 +139,9 @@ install -m 644 bzip2.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig/bzip2.pc
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Tue Dec 08 2015 Jaromir Capik <jcapik@redhat.com> - 1.0.6-19
+- Adding static lib (#1253934)
+
 * Tue Dec 08 2015 Jaromir Capik <jcapik@redhat.com> - 1.0.6-18
 - Adding bzip2.pc to the devel subpackage (#1289576)
 
