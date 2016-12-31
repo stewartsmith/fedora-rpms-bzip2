@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 20%{?dist}
+Release: 21%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -15,6 +15,8 @@ Patch1: bzip2-1.0.4-cflags.patch
 # resolves: #226979
 Patch2: bzip2-1.0.4-bzip2recover.patch
 Patch3: bzip2-ldflags.patch
+# resolves: #1348179
+Patch4: set-out-file-to-null.patch
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
@@ -59,6 +61,7 @@ Static libraries for applications using the bzip2 compression format.
 %patch1 -p1 -b .cflags
 %patch2 -p1 -b .bz2recover
 %patch3 -p1 -b .ldflags
+%patch4 -p1 -b .bzip2recover
 
 cp -a %{SOURCE1} .
 sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
@@ -139,6 +142,10 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Sat Dec 31 2016 Jan Chaloupka <jchaloup@redhat.com> - 1.0.6-21
+- CVE-2016-3189 bzip2: heap use after free in bzip2recover
+  resolves: #1348179
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
