@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 21%{?dist}
+Release: 22%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -142,6 +142,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Sat Dec 31 2016 Jan Chaloupka <jchaloup@redhat.com> - 1.0.6-21
 - CVE-2016-3189 bzip2: heap use after free in bzip2recover
   resolves: #1348179
