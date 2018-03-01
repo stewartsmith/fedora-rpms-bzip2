@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.6
-Release: 26%{?dist}
+Release: 27%{?dist}
 License: BSD
 Group: Applications/File
 URL: http://www.bzip.org/
@@ -17,6 +17,8 @@ Patch2: bzip2-1.0.4-bzip2recover.patch
 Patch3: bzip2-ldflags.patch
 # resolves: #1348179
 Patch4: set-out-file-to-null.patch
+
+BuildRequires: gcc
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
@@ -140,6 +142,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Thu Mar 01 2018 Jakub Martisko <jamartis@redhat.com> - 1.0.6-27
+- Add gcc to buildrequires
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
