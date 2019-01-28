@@ -5,7 +5,6 @@ Name: bzip2
 Version: 1.0.6
 Release: 28%{?dist}
 License: BSD
-Group: Applications/File
 URL: http://www.bzip.org/
 Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
 Source1: bzip2.pc
@@ -33,7 +32,6 @@ Install bzip2 if you need a compression utility.
 
 %package devel
 Summary: Libraries and header files for apps which will use bzip2
-Group: Development/Libraries
 Requires: bzip2-libs = %{version}-%{release}
 
 %description devel
@@ -43,7 +41,6 @@ which will use the library.
 
 %package libs
 Summary: Libraries for applications using bzip2
-Group: System Environment/Libraries
 
 %description libs
 
@@ -51,7 +48,6 @@ Libraries for applications using the bzip2 compression format.
 
 %package static
 Summary: Libraries for applications using bzip2
-Group: System Environment/Libraries
 
 %description static
 
