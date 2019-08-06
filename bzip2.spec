@@ -1,21 +1,18 @@
-%global library_version 1.0.6
+%global library_version 1.0.8
 
 Summary: A file compression utility
 Name: bzip2
-Version: 1.0.6
-Release: 30%{?dist}
+Version: 1.0.8
+Release: 1%{?dist}
 License: BSD
 URL: http://www.bzip.org/
-Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
+#Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
+Source0: https://sourceware.org/pub/bzip2/%{name}-%{version}.tar.gz
 Source1: bzip2.pc
 
-Patch0: bzip2-1.0.4-saneso.patch
-Patch1: bzip2-1.0.4-cflags.patch
-# resolves: #226979
-Patch2: bzip2-1.0.4-bzip2recover.patch
-Patch3: bzip2-ldflags.patch
-# resolves: #1348179
-Patch4: set-out-file-to-null.patch
+Patch0: bzip2-saneso.patch
+Patch1: bzip2-cflags.patch
+Patch2: bzip2-ldflags.patch
 
 BuildRequires: gcc
 
@@ -55,11 +52,9 @@ Static libraries for applications using the bzip2 compression format.
 
 %prep
 %setup -q
-%patch0 -p1 -b .saneso
-%patch1 -p1 -b .cflags
-%patch2 -p1 -b .bz2recover
-%patch3 -p1 -b .ldflags
-%patch4 -p1 -b .bzip2recover
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 cp -a %{SOURCE1} .
 sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
@@ -138,6 +133,11 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Tue Aug 06 2019 Jakub Martisko <jamartis@redhat.com> - 1.0.8-1
+- Update to version 1.0.8
+  resolves: #1724797
+  resolves: #1717478 	
+
 * Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.6-30
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
