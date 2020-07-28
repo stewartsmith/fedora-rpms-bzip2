@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.8
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: BSD
 URL: http://www.bzip.org/
 #Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
@@ -70,16 +70,16 @@ sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
     export O3=""
 %endif
 
-make -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
+%make_build -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
     CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC $O3" \
     LDFLAGS="%{__global_ldflags}" \
-    %{?_smp_mflags} all
+    all
 
 rm -f *.o
-make CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
+%make_build CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
     CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 $O3" \
     LDFLAGS="%{__global_ldflags}" \
-    %{?_smp_mflags} all
+    all
 
 %install
 chmod 644 bzlib.h
@@ -133,6 +133,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Tue Jul 28 2020 Jakub Martisko <jamartis@redhat.com> - 1.0.8-4
+- Use make macros
+
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
