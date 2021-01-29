@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.8
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: BSD
 URL: http://www.bzip.org/
 #Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
@@ -13,6 +13,7 @@ Source1: bzip2.pc
 Patch0: bzip2-saneso.patch
 Patch1: bzip2-cflags.patch
 Patch2: bzip2-ldflags.patch
+Patch3: man_gzipdiff.patch
 
 BuildRequires: gcc
 BuildRequires: make
@@ -56,6 +57,7 @@ Static libraries for applications using the bzip2 compression format.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p2
 
 cp -a %{SOURCE1} .
 sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
@@ -134,6 +136,10 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Fri Jan 29 2021 Jakub Martisko <jamartis@redhat.com> - 1.0.8-6
+- Minor man pgae update (gzip/bzip2 differnces)
+  resolves: #1897104
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
