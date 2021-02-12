@@ -3,7 +3,7 @@
 Summary: A file compression utility
 Name: bzip2
 Version: 1.0.8
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: BSD
 URL: http://www.bzip.org/
 #Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
@@ -63,24 +63,15 @@ cp -a %{SOURCE1} .
 sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
 
 %build
-%if 0%{?rhel} >= 7
-    %ifarch ppc64
-        export O3="-O3"
-    %else
-        export O3=""
-    %endif
-%else
-    export O3=""
-%endif
 
 %make_build -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
-    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC $O3" \
+    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
     LDFLAGS="%{__global_ldflags}" \
     all
 
 rm -f *.o
 %make_build CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
-    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 $O3" \
+    CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
     LDFLAGS="%{__global_ldflags}" \
     all
 
@@ -136,6 +127,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Fri Feb 12 2021 Michal Schorm <mschorm@redhat.com> - 1.0.8-7
+- Remove the ancient ppc64 hack
+
 * Fri Jan 29 2021 Jakub Martisko <jamartis@redhat.com> - 1.0.8-6
 - Minor man pgae update (gzip/bzip2 differnces)
   resolves: #1897104
