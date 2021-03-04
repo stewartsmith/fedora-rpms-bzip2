@@ -1,6 +1,6 @@
 %global library_version 1.0.8
 
-Summary: A file compression utility
+Summary: File compression utility
 Name: bzip2
 Version: 1.0.8
 Release: 7%{?dist}
@@ -31,10 +31,9 @@ Install bzip2 if you need a compression utility.
 
 %package devel
 Summary: Libraries and header files for apps which will use bzip2
-Requires: bzip2-libs = %{version}-%{release}
+Requires: bzip2-libs%{?_isa} = %{version}-%{release}
 
 %description devel
-
 Header files and a library of bzip2 functions, for developing apps
 which will use the library.
 
@@ -42,14 +41,12 @@ which will use the library.
 Summary: Libraries for applications using bzip2
 
 %description libs
-
 Libraries for applications using the bzip2 compression format.
 
 %package static
 Summary: Libraries for applications using bzip2
 
 %description static
-
 Static libraries for applications using the bzip2 compression format.
 
 %prep
@@ -104,19 +101,16 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %ldconfig_scriptlets libs
 
 %files
-%doc LICENSE CHANGES README
-%{!?_licensedir:%global license %%doc}
+%doc CHANGES README
 %license LICENSE
 %{_bindir}/*
 %{_mandir}/*/*
 
 %files libs
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %{_libdir}/libbz2.so.1*
 
 %files static
-%{!?_licensedir:%global license %%doc}
 %license LICENSE
 %{_libdir}/libbz2.a
 
