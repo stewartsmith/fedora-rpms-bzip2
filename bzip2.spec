@@ -9,6 +9,11 @@ URL: http://www.bzip.org/
 #Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
 Source0: https://sourceware.org/pub/bzip2/%{name}-%{version}.tar.gz
 Source1: bzip2.pc
+Source2: https://sourceware.org/pub/bzip2/%{name}-%{version}.tar.gz.sig
+# https://sourceware.org/bzip2/downloads.html links to the gpg key
+# https://sourceware.org/pub/bzip2/gpgkey-5C1D1AA44BE649DE760A.gpg
+# with which the tarballs are signed
+Source3: gpgkey-5C1D1AA44BE649DE760A.gpg
 
 Patch0: bzip2-saneso.patch
 Patch1: bzip2-cflags.patch
@@ -17,6 +22,7 @@ Patch3: man_gzipdiff.patch
 
 BuildRequires: gcc
 BuildRequires: make
+BuildRequires: gnupg2
 
 %description
 Bzip2 is a freely available, patent-free, high quality data compressor.
@@ -50,6 +56,7 @@ Summary: Libraries for applications using bzip2
 Static libraries for applications using the bzip2 compression format.
 
 %prep
+%{gpgverify} --keyring='%{SOURCE3}' --signature='%{SOURCE2}' --data='%{SOURCE0}'
 %setup -q
 %patch0 -p1
 %patch1 -p1
