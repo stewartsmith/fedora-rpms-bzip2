@@ -3,7 +3,7 @@
 Summary: File compression utility
 Name: bzip2
 Version: 1.0.8
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: BSD
 URL: http://www.bzip.org/
 #Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
@@ -121,6 +121,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.0.8-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Wed Jul 21 2021 Jakub Martisko <jamartis@redhat.com> - 1.0.8-8
 - Fix FTBFS due to _ranlib macro being removed
 
