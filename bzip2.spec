@@ -3,7 +3,7 @@
 Summary: File compression utility
 Name: bzip2
 Version: 1.0.8
-Release: 7%{?dist}
+Release: 8%{?dist}
 License: BSD
 URL: http://www.bzip.org/
 #Source0: http://www.bzip.org/%{version}/%{name}-%{version}.tar.gz
@@ -61,13 +61,13 @@ sed -i "s|^libdir=|libdir=%{_libdir}|" bzip2.pc
 
 %build
 
-%make_build -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
+%make_build -f Makefile-libbz2_so CC="%{__cc}" AR="%{__ar}" RANLIB="ranlib" \
     CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64 -fpic -fPIC" \
     LDFLAGS="%{__global_ldflags}" \
     all
 
 rm -f *.o
-%make_build CC="%{__cc}" AR="%{__ar}" RANLIB="%{__ranlib}" \
+%make_build CC="%{__cc}" AR="%{__ar}" RANLIB="ranlib" \
     CFLAGS="$RPM_OPT_FLAGS -D_FILE_OFFSET_BITS=64" \
     LDFLAGS="%{__global_ldflags}" \
     all
@@ -121,6 +121,9 @@ ln -s bzgrep.1 $RPM_BUILD_ROOT%{_mandir}/man1/bzfgrep.1
 %{_libdir}/pkgconfig/bzip2.pc
 
 %changelog
+* Wed Jul 21 2021 Jakub Martisko <jamartis@redhat.com> - 1.0.8-8
+- Fix FTBFS due to _ranlib macro being removed
+
 * Fri Feb 12 2021 Michal Schorm <mschorm@redhat.com> - 1.0.8-7
 - Remove the ancient ppc64 hack
 
