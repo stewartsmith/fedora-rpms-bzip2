@@ -13,7 +13,7 @@
 +.I --force
 +option:
 +
-+       filename.bz2    dose not become   filename.bz2.bz2
++       filename.bz2    does not become   filename.bz2.bz2
 +
  Return values: 0 for a normal exit, 1 for environmental problems (file
  not found, invalid flags, I/O errors, &c), 2 to indicate a corrupt
